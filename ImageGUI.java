@@ -3,10 +3,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.event.KeyListener;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
@@ -21,7 +24,7 @@ import java.awt.event.KeyEvent;
  * invert the colors, grays scale, etc.
  * 
  */
-public class ImageGUI extends JFrame implements KeyListener {
+public class ImageGUI extends JFrame implements KeyListener/*, ActionListener*/ {
 
     // current image is the image current displayed
     private BufferedImage currentImage;
@@ -50,11 +53,21 @@ public class ImageGUI extends JFrame implements KeyListener {
      * Post: an image is shown on the display
      */
     public ImageGUI() throws IOException {
+        /*
+        JButton switchImage = new JButton("switch image");
+        switchImage.addActionListener(new ActionListener()) {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                this.switchImage();
+            }
+        } */
+        
+
         // note super class (JFrame) constructor is auto called
         this.setLayout(new FlowLayout());
         this.addKeyListener(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
         // read in the default (first image)
         String imagePath = ImageGUI.IMAGES[this.currentImageIndex];
         File imageFile = new File(imagePath);
@@ -64,8 +77,10 @@ public class ImageGUI extends JFrame implements KeyListener {
         imgManipulator = new ImageManipulator();
         imgManipulator.setImage(this.currentImage);
 
+        //this.add(switchImage);
         // display the image
         this.displayImage(this.currentImage);
+
     }
 
     /*****************************************
