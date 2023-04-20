@@ -1,4 +1,6 @@
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +39,12 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     private int currentImageIndex = 0;
 
     private ImageManipulator imgManipulator;
+    GridBagConstraints c = new GridBagConstraints();
+
     JButton imageSwitch = new JButton("switch image");
+    JButton imageRotate = new JButton("rotate image");
+    JButton imageFlipV = new JButton("flip image vertically");
+    JButton imageFlipH = new JButton("flip image horizontally");
 
 
     /*************************MAIN**********************
@@ -58,7 +65,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     public ImageGUI() throws IOException {
         
         // note super class (JFrame) constructor is auto called
-        this.setLayout(new FlowLayout());
+        this.setLayout(new GridBagLayout());
         this.addKeyListener(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -71,8 +78,33 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         imgManipulator = new ImageManipulator();
         imgManipulator.setImage(this.currentImage);
 
-        this.add(imageSwitch);
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 0;
+        this.add(imageSwitch, c);
         imageSwitch.addActionListener(this);
+
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 1;
+        this.add(imageRotate, c);
+        imageRotate.addActionListener(this);
+
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 2;
+        this.add(imageFlipV, c);
+        imageFlipV.addActionListener(this);
+
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 3;
+        this.add(imageFlipH, c);
+        imageFlipH.addActionListener(this);
+
+        
         // display the image
         this.displayImage(this.currentImage);
 
@@ -82,6 +114,21 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         if(e.getSource() == imageSwitch){
             switchImage();
         }
+        int[][] newPixels = new int[0][0];
+        if(e.getSource() == imageRotate){
+            newPixels = imgManipulator.rotate();
+        }
+        if(e.getSource() == imageFlipV){
+            newPixels = imgManipulator.flipVertical();
+        }
+        if(e.getSource() == imageFlipH){
+            newPixels = imgManipulator.flipHorizontal();
+        }
+        
+        if (newPixels.length > 0){
+            this.updateDisplayedImage(newPixels);
+        }
+        
     }
     
     /*****************************************
@@ -118,10 +165,16 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         if (imageHolder != null)
             this.remove(imageHolder);
         // set the size of the frame with 50 pixels of padding
-        this.setSize(newImage.getWidth() + 50, newImage.getHeight() + 50);
+        //this.setSize(newImage.getWidth() + 50, newImage.getHeight() + 50);
+        this.setSize(500, 500);
         // add the image to the JFrame
         imageHolder = new JLabel(new ImageIcon(newImage));
-        this.add(imageHolder);
+        
+        c.gridx = 1;
+        c.gridy = 1;
+        c.gridheight = 4;
+        
+        this.add(imageHolder, c);
         this.setVisible(true); // show the JFrame with image
     }
 
