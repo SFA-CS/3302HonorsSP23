@@ -14,6 +14,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  * Author: JJB
@@ -37,6 +39,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     private static final String[] IMAGES = new String[] { "buzz.png", "billy.png", "gru.png" };
     // index of current image being display
     private int currentImageIndex = 0;
+    
 
     private ImageManipulator imgManipulator;
     GridBagConstraints c = new GridBagConstraints();
@@ -45,6 +48,14 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     JButton imageRotate = new JButton("rotate image");
     JButton imageFlipV = new JButton("flip image vertically");
     JButton imageFlipH = new JButton("flip image horizontally");
+    
+    Icon buzz = new ImageIcon("buzz.png");
+    Icon billy = new ImageIcon("billy.png");
+    Icon gru = new ImageIcon("gru.png");
+
+    JButton buzzB = new JButton(buzz);
+    JButton billyB = new JButton(billy);
+    JButton gruB = new JButton(gru);
 
 
     /*************************MAIN**********************
@@ -104,6 +115,24 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         this.add(imageFlipH, c);
         imageFlipH.addActionListener(this);
 
+        c.weightx = 0.5;
+        c.gridx = 2;
+        c.gridy = 0;
+        this.add(buzzB, c);
+        buzzB.addActionListener(this);
+
+        c.weightx = 0.5;
+        c.gridx = 2;
+        c.gridy = 1;
+        this.add(billyB, c);
+        billyB.addActionListener(this);
+
+        c.weightx = 0.5;
+        c.gridx = 2;
+        c.gridy = 2;
+        this.add(gruB, c);
+        gruB.addActionListener(this);
+
         
         // display the image
         this.displayImage(this.currentImage);
@@ -124,6 +153,16 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         if(e.getSource() == imageFlipH){
             newPixels = imgManipulator.flipHorizontal();
         }
+
+        if(e.getSource() == buzzB){
+            switchImage(0);
+        }
+        if(e.getSource() == billyB){
+            switchImage(1);
+        }
+        if(e.getSource() == gruB){
+            switchImage(2);
+        }
         
         if (newPixels.length > 0){
             this.updateDisplayedImage(newPixels);
@@ -140,6 +179,22 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     public void switchImage() {
         // move the circular queue position to next index
         this.currentImageIndex = (this.currentImageIndex + 1) % 3;
+        String imagePath = ImageGUI.IMAGES[this.currentImageIndex];
+        File imageFile = new File(imagePath);
+        // get the new file, if there is an error, switch to the default
+        // (first image) and try again
+        try {
+            this.currentImage = ImageIO.read(imageFile);
+        } catch (IOException e) {
+            this.currentImageIndex = 0;
+            this.switchImage();
+        }
+        this.displayImage(this.currentImage);
+    }
+
+    public void switchImage(int index) {
+        // move the circular queue position to next index
+        this.currentImageIndex = index;
         String imagePath = ImageGUI.IMAGES[this.currentImageIndex];
         File imageFile = new File(imagePath);
         // get the new file, if there is an error, switch to the default
