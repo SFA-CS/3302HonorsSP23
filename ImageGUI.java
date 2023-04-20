@@ -98,56 +98,56 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         //rotate button
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 0;
         this.add(imageRotate, c);
         imageRotate.addActionListener(this);
 
         //flip vertically
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 1;
         this.add(imageFlipV, c);
         imageFlipV.addActionListener(this);
 
         //flip horizontal
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 2;
         this.add(imageFlipH, c);
         imageFlipH.addActionListener(this);
 
         //invert image
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 3;
         this.add(imageInvert, c);
         imageInvert.addActionListener(this);
 
         //greyscale
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = 4;
         this.add(imageGrey, c);
         imageGrey.addActionListener(this);
 
         //filter red
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 6;
+        c.gridy = 5;
         this.add(imageRed, c);
         imageRed.addActionListener(this);
 
         //filter green
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 7;
+        c.gridy = 6;
         this.add(imageGreen, c);
         imageGreen.addActionListener(this);
 
         //filter blue
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 8;
+        c.gridy = 7;
         this.add(imageBlue, c);
         imageBlue.addActionListener(this);
 
