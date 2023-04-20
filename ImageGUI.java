@@ -44,10 +44,14 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     private ImageManipulator imgManipulator;
     GridBagConstraints c = new GridBagConstraints();
 
-    JButton imageSwitch = new JButton("switch image");
     JButton imageRotate = new JButton("rotate image");
     JButton imageFlipV = new JButton("flip image vertically");
     JButton imageFlipH = new JButton("flip image horizontally");
+    JButton imageInvert = new JButton("invert image");
+    JButton imageGrey = new JButton("greyscale");
+    JButton imageRed = new JButton("filter red");
+    JButton imageGreen = new JButton("filter green");
+    JButton imageBlue = new JButton("filter blue");
     
     Icon buzz = new ImageIcon("buzz.png");
     Icon billy = new ImageIcon("billy.png");
@@ -91,29 +95,61 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         c.fill = GridBagConstraints.HORIZONTAL;
 
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = 0;
-        this.add(imageSwitch, c);
-        imageSwitch.addActionListener(this);
-
+        //rotate button
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 1;
         this.add(imageRotate, c);
         imageRotate.addActionListener(this);
 
+        //flip vertically
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 2;
         this.add(imageFlipV, c);
         imageFlipV.addActionListener(this);
 
+        //flip horizontal
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 3;
         this.add(imageFlipH, c);
         imageFlipH.addActionListener(this);
+
+        //invert image
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 4;
+        this.add(imageInvert, c);
+        imageInvert.addActionListener(this);
+
+        //greyscale
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 5;
+        this.add(imageGrey, c);
+        imageGrey.addActionListener(this);
+
+        //filter red
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 6;
+        this.add(imageRed, c);
+        imageRed.addActionListener(this);
+
+        //filter green
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 7;
+        this.add(imageGreen, c);
+        imageGreen.addActionListener(this);
+
+        //filter blue
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 8;
+        this.add(imageBlue, c);
+        imageBlue.addActionListener(this);
 
         c.weightx = 0.5;
         c.gridx = 2;
@@ -140,9 +176,6 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     }
 
     public void actionPerformed(ActionEvent e){
-        if(e.getSource() == imageSwitch){
-            switchImage();
-        }
         int[][] newPixels = new int[0][0];
         if(e.getSource() == imageRotate){
             newPixels = imgManipulator.rotate();
@@ -153,6 +186,22 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         if(e.getSource() == imageFlipH){
             newPixels = imgManipulator.flipHorizontal();
         }
+        if(e.getSource() == imageInvert){
+            newPixels = imgManipulator.invert();
+        }
+        if(e.getSource() == imageGrey){
+            newPixels = imgManipulator.grayScale();
+        }
+        if(e.getSource() == imageRed){
+            newPixels = imgManipulator.filter(0x00FF0000);
+        }
+        if(e.getSource() == imageGreen){
+            newPixels = imgManipulator.filter(0x0000FF00);
+        }
+        if(e.getSource() == imageBlue){
+            newPixels = imgManipulator.filter(0x000000FF);
+        }
+
 
         if(e.getSource() == buzzB){
             switchImage(0);
@@ -221,7 +270,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
             this.remove(imageHolder);
         // set the size of the frame with 50 pixels of padding
         //this.setSize(newImage.getWidth() + 50, newImage.getHeight() + 50);
-        this.setSize(500, 500);
+        this.setSize(1000, 900);
         // add the image to the JFrame
         imageHolder = new JLabel(new ImageIcon(newImage));
         
