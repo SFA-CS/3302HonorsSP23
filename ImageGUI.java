@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
@@ -24,7 +25,7 @@ import java.awt.event.KeyEvent;
  * invert the colors, grays scale, etc.
  * 
  */
-public class ImageGUI extends JFrame implements KeyListener/*, ActionListener*/ {
+public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
     // current image is the image current displayed
     private BufferedImage currentImage;
@@ -36,6 +37,8 @@ public class ImageGUI extends JFrame implements KeyListener/*, ActionListener*/ 
     private int currentImageIndex = 0;
 
     private ImageManipulator imgManipulator;
+    JButton imageSwitch = new JButton("switch image");
+
 
     /*************************MAIN**********************
      * Simply create the object to display.
@@ -53,16 +56,7 @@ public class ImageGUI extends JFrame implements KeyListener/*, ActionListener*/ 
      * Post: an image is shown on the display
      */
     public ImageGUI() throws IOException {
-        /*
-        JButton switchImage = new JButton("switch image");
-        switchImage.addActionListener(new ActionListener()) {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                this.switchImage();
-            }
-        } */
         
-
         // note super class (JFrame) constructor is auto called
         this.setLayout(new FlowLayout());
         this.addKeyListener(this);
@@ -77,12 +71,19 @@ public class ImageGUI extends JFrame implements KeyListener/*, ActionListener*/ 
         imgManipulator = new ImageManipulator();
         imgManipulator.setImage(this.currentImage);
 
-        //this.add(switchImage);
+        this.add(imageSwitch);
+        imageSwitch.addActionListener(this);
         // display the image
         this.displayImage(this.currentImage);
 
     }
 
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() == imageSwitch){
+            switchImage();
+        }
+    }
+    
     /*****************************************
      * This method switches between the images available.
      * Pre : none
