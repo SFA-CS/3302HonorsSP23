@@ -52,7 +52,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
     JLabel menu = new JLabel("Menu");
     JButton add = new JButton("add");
-    JButton remove = new JButton("remove");
+    JButton remove = new JButton("remove all");
     JButton save = new JButton("save");
     JButton exit = new JButton("exit");
 
@@ -118,12 +118,14 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //menu
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 0;
         this.add(menu, c);
 
         //add
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 1;
         c.gridy = 0;
         this.add(add, c);
@@ -131,6 +133,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //remove
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 2;
         c.gridy = 0;
         this.add(remove, c);
@@ -138,6 +141,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //save
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 3;
         c.gridy = 0;
         this.add(save, c);
@@ -145,6 +149,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //exit
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 4;
         c.gridy = 0;
         this.add(exit, c);
@@ -152,6 +157,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //rotate button
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 1;
         this.add(imageRotate, c);
@@ -159,6 +165,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //flip vertically
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 2;
         this.add(imageFlipV, c);
@@ -166,6 +173,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //flip horizontal
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 3;
         this.add(imageFlipH, c);
@@ -173,6 +181,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //invert image
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 4;
         this.add(imageInvert, c);
@@ -180,6 +189,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //greyscale
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 5;
         this.add(imageGrey, c);
@@ -187,6 +197,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //filter red
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 6;
         this.add(imageRed, c);
@@ -194,6 +205,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //filter green
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 7;
         this.add(imageGreen, c);
@@ -201,6 +213,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //filter blue
         c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 8;
         this.add(imageBlue, c);
@@ -208,6 +221,8 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //buzz
         c.weightx = 0.5;
+        c.weighty = 0.5;
+        c.gridheight = 2;
         c.gridx = 4;
         c.gridy = 1;
         this.add(buzzB, c);
@@ -215,18 +230,21 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
 
         //billy
         c.weightx = 0.5;
+        c.weighty = 0.5;
+        c.gridheight = 2;
         c.gridx = 4;
-        c.gridy = 2;
+        c.gridy = 3;
         this.add(billyB, c);
         billyB.addActionListener(this);
 
         //gru
         c.weightx = 0.5;
+        c.weighty = 0.5;
+        c.gridheight = 2;
         c.gridx = 4;
-        c.gridy = 3;
+        c.gridy = 5;
         this.add(gruB, c);
         gruB.addActionListener(this);
-
         
         // display the image
         this.displayImage(this.currentImage);
@@ -274,8 +292,23 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         if (newPixels.length > 0){
             this.updateDisplayedImage(newPixels);
         }
-        
+
+        if(e.getSource() == exit){
+            super.dispose();
+        }
+        if(e.getSource() == save){
+            
+        }
+        if(e.getSource() == remove){
+            
+        }
+        if(e.getSource() == add){
+            
+        }
+            
     }
+            
+    
     
     /*****************************************
      * This method switches between the images available.
@@ -334,7 +367,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         
         c.gridx = 1;
         c.gridy = 1;
-        c.gridheight = 4;
+        c.gridheight = 8;
         c.gridwidth = 3;
         
         this.add(imageHolder, c);
