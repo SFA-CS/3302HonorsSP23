@@ -3,16 +3,17 @@ import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.Buffer;
-
 import javax.imageio.ImageIO;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.event.KeyListener;
@@ -43,10 +44,13 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     private JLabel imageHolder;
     // images that can be displayed
     private static final String[] IMAGES = new String[] { "buzz.png", "billy.png", "gru.png" };
+    private String[] ImagesAdded = new String[] { "buzz", "billy", "gru" };
+    private String[] picsNonUsed = new String[] {};
+    private String[] picsUsed = new String[] {"all images added"};
+
     // index of current image being display
     private int currentImageIndex = 0;
     
-
     private ImageManipulator imgManipulator;
     GridBagConstraints c = new GridBagConstraints();
 
@@ -65,6 +69,8 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     JButton imageGreen = new JButton("filter green");
     JButton imageBlue = new JButton("filter blue");
     
+    JComboBox picList = new JComboBox(picsUsed);
+
     ImageIcon buzz = new ImageIcon("buzz.png");
     ImageIcon billy = new ImageIcon("billy.png");
     ImageIcon gru = new ImageIcon("gru.png");
@@ -123,10 +129,18 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         c.gridy = 0;
         this.add(menu, c);
 
-        //add
+        //combobox
         c.weightx = 0.5;
         c.weighty = 0.5;
         c.gridx = 1;
+        c.gridy = 0;
+        this.add(picList, c);
+        add.addActionListener(this);
+
+        //add
+        c.weightx = 0.5;
+        c.weighty = 0.5;
+        c.gridx = 2;
         c.gridy = 0;
         this.add(add, c);
         add.addActionListener(this);
@@ -134,7 +148,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         //remove
         c.weightx = 0.5;
         c.weighty = 0.5;
-        c.gridx = 2;
+        c.gridx = 3;
         c.gridy = 0;
         this.add(remove, c);
         remove.addActionListener(this);
@@ -142,7 +156,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         //save
         c.weightx = 0.5;
         c.weighty = 0.5;
-        c.gridx = 3;
+        c.gridx = 4;
         c.gridy = 0;
         this.add(save, c);
         save.addActionListener(this);
@@ -150,7 +164,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         //exit
         c.weightx = 0.5;
         c.weighty = 0.5;
-        c.gridx = 4;
+        c.gridx = 5;
         c.gridy = 0;
         this.add(exit, c);
         exit.addActionListener(this);
@@ -219,11 +233,32 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         this.add(imageBlue, c);
         imageBlue.addActionListener(this);
 
+        if(ImagesAdded.length > 0){
+            c.weightx = 0.5;
+            c.weighty = 0.5;
+            c.gridheight = 2;
+            c.gridx = 5;
+            c.gridy = 1;
+            for(int i = 0; i < ImagesAdded.length; i++){
+                if(ImagesAdded[i].equals("buzz")){
+                    this.add(buzzB, c);
+                }
+                else if(ImagesAdded[i].equals("billy")){
+                    this.add(billyB, c);
+                }
+                else if(ImagesAdded[i].equals("gru")){
+                    this.add(gruB, c);
+                }
+                c.gridy = c.gridy + 2;
+            }
+        }
+
+        /* 
         //buzz
         c.weightx = 0.5;
         c.weighty = 0.5;
         c.gridheight = 2;
-        c.gridx = 4;
+        c.gridx = 5;
         c.gridy = 1;
         this.add(buzzB, c);
         buzzB.addActionListener(this);
@@ -232,7 +267,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         c.weightx = 0.5;
         c.weighty = 0.5;
         c.gridheight = 2;
-        c.gridx = 4;
+        c.gridx = 5;
         c.gridy = 3;
         this.add(billyB, c);
         billyB.addActionListener(this);
@@ -241,10 +276,11 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         c.weightx = 0.5;
         c.weighty = 0.5;
         c.gridheight = 2;
-        c.gridx = 4;
+        c.gridx = 5;
         c.gridy = 5;
         this.add(gruB, c);
         gruB.addActionListener(this);
+        */
         
         // display the image
         this.displayImage(this.currentImage);
@@ -254,27 +290,35 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e){
         int[][] newPixels = new int[0][0];
         if(e.getSource() == imageRotate){
+            imgManipulator.setImage(currentImage);
             newPixels = imgManipulator.rotate();
         }
         if(e.getSource() == imageFlipV){
+            imgManipulator.setImage(currentImage);
             newPixels = imgManipulator.flipVertical();
         }
         if(e.getSource() == imageFlipH){
+            imgManipulator.setImage(currentImage);
             newPixels = imgManipulator.flipHorizontal();
         }
         if(e.getSource() == imageInvert){
+            imgManipulator.setImage(currentImage);
             newPixels = imgManipulator.invert();
         }
         if(e.getSource() == imageGrey){
+            imgManipulator.setImage(currentImage);
             newPixels = imgManipulator.grayScale();
         }
         if(e.getSource() == imageRed){
+            imgManipulator.setImage(currentImage);
             newPixels = imgManipulator.filter(0x00FF0000);
         }
         if(e.getSource() == imageGreen){
+            imgManipulator.setImage(currentImage);
             newPixels = imgManipulator.filter(0x0000FF00);
         }
         if(e.getSource() == imageBlue){
+            imgManipulator.setImage(currentImage);
             newPixels = imgManipulator.filter(0x000000FF);
         }
 
@@ -300,10 +344,46 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
             
         }
         if(e.getSource() == remove){
+            picList.removeAllItems();
+            picList.addItem("buzz");
+            picList.addItem("billy");
+            picList.addItem("gru");
+
+            String[] newArr = new String[] {};
+            ImagesAdded = newArr;
             
+            String[] otherArr = new String[] {"buzz", "billy", "gru"};
+            picsNonUsed = otherArr;
         }
         if(e.getSource() == add){
-            
+            String selected = (String)picList.getSelectedItem();
+            if(!selected.equals("all images added")){
+                
+                String[] newArr = new String[ImagesAdded.length+1];
+                for(int i = 0; i < ImagesAdded.length; i++){
+                    newArr[i] = ImagesAdded[i];
+                }
+                newArr[ImagesAdded.length+1] = selected;
+                ImagesAdded = newArr;
+                
+                String[] otherArr = new String[picsNonUsed.length-1];
+                int index = 0;
+                for(int i = 0; i < picsNonUsed.length; i++){
+                    if(!picsNonUsed[i].equals(selected)){
+                        otherArr[index] = picsNonUsed[i];
+                    }
+                }
+                picsNonUsed = otherArr;
+                
+                JComboBox newpicList = new JComboBox(picsNonUsed);
+                picList = newpicList;
+
+
+                if(picList.getItemCount() == 0){
+                    picList.addItem("all images added");
+                }
+                
+            }
         }
             
     }
@@ -368,7 +448,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         c.gridx = 1;
         c.gridy = 1;
         c.gridheight = 8;
-        c.gridwidth = 3;
+        c.gridwidth = 4;
         
         this.add(imageHolder, c);
         this.setVisible(true); // show the JFrame with image
