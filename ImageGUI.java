@@ -255,35 +255,6 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
                 c.gridy = c.gridy + 2;
             }
         }
-
-        /* 
-        //buzz
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.gridheight = 2;
-        c.gridx = 5;
-        c.gridy = 1;
-        this.add(buzzB, c);
-        buzzB.addActionListener(this);
-
-        //billy
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.gridheight = 2;
-        c.gridx = 5;
-        c.gridy = 3;
-        this.add(billyB, c);
-        billyB.addActionListener(this);
-
-        //gru
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.gridheight = 2;
-        c.gridx = 5;
-        c.gridy = 5;
-        this.add(gruB, c);
-        gruB.addActionListener(this);
-        */
         
         // display the image
         this.displayImage(this.currentImage);
@@ -291,6 +262,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
     }
 
     public void actionPerformed(ActionEvent e){
+        //image manipulation buttons:
         int[][] newPixels = new int[0][0];
         if(e.getSource() == imageRotate){
             imgManipulator.setImage(currentImage);
@@ -325,7 +297,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
             newPixels = imgManipulator.filter(0x000000FF);
         }
 
-
+        //button icons:
         if(e.getSource() == buzzB){
             switchImage(0);
         }
@@ -340,6 +312,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
             this.updateDisplayedImage(newPixels);
         }
 
+        //menu buttons:
         if(e.getSource() == exit){
             super.dispose();
         }
@@ -362,6 +335,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
             String selected = (String)picList.getSelectedItem();
             if(!selected.equals("all images added")){
                 
+                //update list of images displayed
                 String[] newArr = new String[ImagesAdded.length+1];
                 for(int i = 0; i < ImagesAdded.length; i++){
                     newArr[i] = ImagesAdded[i];
@@ -369,6 +343,7 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
                 newArr[ImagesAdded.length+1] = selected;
                 ImagesAdded = newArr;
                 
+                //update list of images not displayed
                 String[] otherArr = new String[picsNonUsed.length-1];
                 int index = 0;
                 for(int i = 0; i < picsNonUsed.length; i++){
@@ -378,10 +353,13 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
                 }
                 picsNonUsed = otherArr;
                 
-                JComboBox newpicList = new JComboBox(picsNonUsed);
-                picList = newpicList;
+                //update combobox - NOT WORKING
+                picList.removeAllItems();
+                for(int i = 0; i < picsNonUsed.length; i++){
+                    picList.addItem(picsNonUsed[i]);
+                }
 
-
+                //if there is nothing left in the combobox...
                 if(picList.getItemCount() == 0){
                     picList.addItem("all images added");
                 }
