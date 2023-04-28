@@ -242,12 +242,15 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
             for(int i = 0; i < ImagesAdded.length; i++){
                 if(ImagesAdded[i].equals("buzz")){
                     this.add(buzzB, c);
+                    buzzB.addActionListener(this);
                 }
                 else if(ImagesAdded[i].equals("billy")){
                     this.add(billyB, c);
+                    billyB.addActionListener(this);
                 }
                 else if(ImagesAdded[i].equals("gru")){
                     this.add(gruB, c);
+                    gruB.addActionListener(this);
                 }
                 c.gridy = c.gridy + 2;
             }
