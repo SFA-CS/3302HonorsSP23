@@ -1,16 +1,11 @@
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import javax.imageio.ImageIO;
-import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,9 +15,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import java.awt.Dimension;;
 
 /**
  * Author: JJB
@@ -130,104 +122,105 @@ public class ImageGUI extends JFrame implements KeyListener, ActionListener {
         this.add(menu, c);
 
         //combobox
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.gridx = 1;
-        c.gridy = 0;
-        this.add(picList, c);
-        add.addActionListener(this);
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
+        //c.gridx = 1;
+        //c.gridy = 0;
+        //this.add(picList, c);
+        //add.addActionListener(this);
 
         //add
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 2;
         c.gridy = 0;
         this.add(add, c);
         add.addActionListener(this);
 
         //remove
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 3;
         c.gridy = 0;
         this.add(remove, c);
         remove.addActionListener(this);
 
         //save
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 4;
         c.gridy = 0;
         this.add(save, c);
         save.addActionListener(this);
 
         //exit
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 5;
         c.gridy = 0;
         this.add(exit, c);
         exit.addActionListener(this);
 
+        //c.fill = GridBagConstraints.VERTICAL;
         //rotate button
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 1;
         this.add(imageRotate, c);
         imageRotate.addActionListener(this);
 
         //flip vertically
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 2;
         this.add(imageFlipV, c);
         imageFlipV.addActionListener(this);
 
         //flip horizontal
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 3;
         this.add(imageFlipH, c);
         imageFlipH.addActionListener(this);
 
         //invert image
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 4;
         this.add(imageInvert, c);
         imageInvert.addActionListener(this);
 
         //greyscale
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 5;
         this.add(imageGrey, c);
         imageGrey.addActionListener(this);
 
         //filter red
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 6;
         this.add(imageRed, c);
         imageRed.addActionListener(this);
 
         //filter green
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 7;
         this.add(imageGreen, c);
         imageGreen.addActionListener(this);
 
         //filter blue
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        //c.weightx = 0.5;
+        //c.weighty = 0.5;
         c.gridx = 0;
         c.gridy = 8;
         this.add(imageBlue, c);
