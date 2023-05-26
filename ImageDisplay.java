@@ -15,10 +15,11 @@ public class ImageDisplay {
     static ImageManipulator imageManipulator = new ImageManipulator(); // used to alter image pixels
     static BufferedImage currentImage; // currrent image being displayed
     static int currentImageIndex = 0; // index for the current image in the list being used
+    static ColorChooser colorChooser;
 
     // buttons names on the left along with corresponding method calls
     static String[] leftButtonNames = new String[] { "rotate", "flip vertically", "flip horizontally", "invert colors",
-            "greyscale", "filter red", "filer green", "filter blue", "filter magenta", "filter yellow",
+            "greyscale", "filter red", "filter green", "filter blue", "filter magenta", "filter yellow",
             "filter teal", "filter by color" };
     static Runnable[] leftButtonMethods = new Runnable[] {
             () -> rotate(),
@@ -26,12 +27,12 @@ public class ImageDisplay {
             () -> flipHorizontal(),
             () -> invert(),
             () -> greyscale(),
-            () -> filterRed(),
-            () -> filterGreen(),
-            () -> filterBlue(),
-            () -> filterMagenta(),
-            () -> filterYellow(),
-            () -> filterTeal(),
+            () -> filter(0x00FF0000), // red
+            () -> filter(0x0000FF00), // green
+            () -> filter(0x000000FF), // blue
+            () -> filter(0x00FF00FF), // magenta
+            () -> filter(0x00FFFF00), // yellow
+            () -> filter(0x0000FFFF), // teal
             () -> filterColor()
     };
     // buttons name for the top panel and the corresponding method calls
@@ -101,21 +102,7 @@ public class ImageDisplay {
         imagePanel = new JPanel();
         imagePanel.setLayout(new GridLayout(0, 1));
         JScrollPane scrollPane = new JScrollPane(imagePanel);
-        for (int i = 0; i < imageList.size(); i++) {
-            BufferedImage currentImage = imageList.get(i);
-            ImageIcon icon = getImageIcon(currentImage, 150, 150);
-            JButton button = new JButton(icon);
-            button.putClientProperty("location", i);
-            button.setContentAreaFilled(false);
-            button.setBorderPainted(false);
-            button.setPreferredSize(new Dimension(150, 150));
-            button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    displayImage((Integer) ((JButton) e.getSource()).getClientProperty("location"));
-                }
-            });
-            imagePanel.add(button);
-        }
+        addImagesToPanel();
 
         // JLabel with an first image icon in the center
         ImageIcon centerIcon = new ImageIcon(imageList.get(0));
@@ -135,8 +122,26 @@ public class ImageDisplay {
         frame.setVisible(true);
     }
 
-    public static void callMethod() {
-        System.out.println("Call Method");
+    private static void addImagesToPanel() {
+        imagePanel.removeAll();
+        imagePanel.setVisible(false);
+        for (int i = 0; i < imageList.size(); i++) {
+            BufferedImage currentImage = imageList.get(i);
+            ImageIcon icon = getImageIcon(currentImage, 150, 150);
+            JButton button = new JButton(icon);
+            button.putClientProperty("location", i);
+            button.setContentAreaFilled(false);
+            button.setBorderPainted(false);
+            button.setPreferredSize(new Dimension(150, 150));
+            button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    displayImage((Integer) ((JButton) e.getSource()).getClientProperty("location"));
+                }
+            });
+            imagePanel.add(button);
+
+        }
+        imagePanel.setVisible(true);
     }
 
     // -----------------------exit---------------------
@@ -170,37 +175,59 @@ public class ImageDisplay {
     // This method opens a dialogue box for the user to select an image
     // and adds it to the end at the panel on the left.
     private static void addImage() {
-        // TODO: 1) Open dialogue box for user to select image 2) image should be added
-        // to end of imageList
-        // TODO: Icon correspondonging to image should be added to the end of
-        // imagePanel. See code about line 108 on how to add icon.
-        // TODO: Add exception handling for selecting a non-valid file which display a
-        // JOptionPane dialogue box. See errorMessage() for example
+        // open the file selector and get the selected file
+        ImageFileSelector fileSelector = new ImageFileSelector(frame);
+        File fileSelected = fileSelector.getSelectedFile();
+
+        // check to see if a file was choosen
+        if (fileSelected != null) {
+            try {
+                // add the file to the fornt of the list
+                imageList.add(0, ImageIO.read(fileSelected));
+                // add the new image to top of panel
+                addImagesToPanel();
+                // display the new image on center
+                displayImage(0);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }     
+        
     }
 
     // -----------------removeImage------------------
     // This method removes the currently displayed image from the imageList
     // and the scrollable pane.
     private static void removeImage() {
-        // TODO: 1) Removes the currently displayed image form the imageList and the
-        // icon from the imagePanel 2) show the first image in the image list on the
-        // imagePanel
-        // TODO: 3) if no images are in the list, just display a message dialgoue
-        // notificying the user
-        errorMessage();
-        currentImageIndex = 0;
-        currentImage = imageList.get(0);
+        if (imageList.size() > 0) {
+            imageList.remove(currentImageIndex);
+            
+            // remove image from panel
+            addImagesToPanel();
+            // display the first image on left in the center
+            displayImage(0);
+        } else {
+            JOptionPane.showMessageDialog(frame, "No images currently in use.", "Cannot remove image",
+                JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 
     // ------------------removeAll-------------------
     // This method removes all image from the image list and the image panel.
     private static void removeAllImages() {
-        // TODO: 1) Remove all images from the image list 2) image all icons from the
-        // imagePanel
+        imageList.removeAll();
+        addImagesToPanel();
+        centerLabel.setVisible(false);
         currentImage = null;
         currentImageIndex = -1;
     }
 
+    /**
+     * Update the currently displayed image with the new pixels.
+     * 
+     * @param pixels
+     */
     private static void updateDisplayedImage(int[][] pixels) {
         // get the width and height of the image
         int w = pixels.length;
@@ -218,14 +245,15 @@ public class ImageDisplay {
         displayImage(newImage);
     }
 
-    //----------------------errorMessage----------------
+    // ----------------------errorMessage----------------
     // notify the user that no images are currently in use
     private static void errorMessage() {
-        JOptionPane.showMessageDialog(frame, "No image currently in use.", "Image Not Presenent",    JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(frame, "No image currently in use.", "Image Not Present",
+                JOptionPane.ERROR_MESSAGE);
     }
-    
+
     // ----------------------rotate-----------------
-    // rotates the current image
+    // rotates the current image 90 degrees clockwise
     private static void rotate() {
         if (currentImage == null)
             errorMessage();
@@ -251,55 +279,74 @@ public class ImageDisplay {
     // ----------------------flipsHorizontal-----------------
     // flips the image horizontally
     private static void flipHorizontal() {
-        //TODO: implement, similar to flipVertical
-    }
-
-    private static void invert() {
-        //TODO: implement, similar to flipVertical
-    }
-
-    private static void greyscale() {
-        //TODO: implement, similar to flipVertical
-    }
-
-    private static void filterRed() {
         if (currentImage == null)
             errorMessage();
         else {
             imageManipulator.setImage(currentImage);
-            int[][] newPixels = imageManipulator.filterRed();
+            int[][] nexPixels = imageManipulator.flipHorizontal();
+            updateDisplayedImage(nexPixels);
+        }
+    }
+
+    /**
+     * Invert the pixels in the current image.
+     * i.e. flip the 1's and 0's in the color bits
+     */
+    private static void invert() {
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] nexPixels = imageManipulator.invert();
+            updateDisplayedImage(nexPixels);
+        }
+    }
+
+    /**
+     * Take the current image and convert to grey scale.
+     */
+    private static void greyscale() {
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] nexPixels = imageManipulator.grayScale();
+            updateDisplayedImage(nexPixels);
+        }
+    }
+
+    /**
+     * Filter the image RGB color according to the mask
+     * and display the result.
+     * 
+     * @param mask - bit mask for color
+     */
+    private static void filter(int mask) {
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] newPixels = imageManipulator.filter(mask);
             updateDisplayedImage(newPixels);
         }
     }
 
-    private static void filterGreen() {
-        //TODO: implement, similar to filterRed
-    }
-
-    private static void filterBlue() {
-        //TODO: implement, similar to filterRed
-    }
-    
-    private static void filterMagenta() {
-        //TODO: implement, similar to filterRed
-    }
-
-    private static void filterYellow() {
-        //TODO: implement, similar to filterRed
-    }
-
-    private static void filterTeal() {
-        //TODO: implement, similar to filterRed
-    }
-
+    /**
+     * Open a color chooser and have it call
+     * filter by color when done.
+     */
     private static void filterColor() {
-        //TODO: This one is a little tricky. Here is the idea.
-        /* 1) Open a color choice dialogue box. Let's just do a simple RGB one. 
-           https://www.geeksforgeeks.org/java-swing-jcolorchooser-class/#
-           2) Get the selected color from the panel
-           3) Convert the color to a mask and call the filter method with
-           mask parameter from the image manipulator class
-        */
+        // when closed the color choose will call filter by color
+        colorChooser = new ColorChooser(() -> filterByColor());
+        colorChooser.createAndShowGUI();
     }
-    
+
+    /**
+     * Filter the image by the color choosen by the
+     * coolor chooser.
+     */
+    private static void filterByColor() {
+        filter(colorChooser.getColor());
+    }
+
 }

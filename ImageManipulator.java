@@ -175,29 +175,5 @@ public class ImageManipulator {
         return newPixels;
     }
 
-    public int[][] filterRed() {
-        return this.filter(0x00FF0000);
-    }
-
-    public int[][] filterGreen() {
-        return this.filter(0x0000FF00);
-    }
-
-    public int[][] filterBlue() {
-        return this.filter(0x000000FF);
-    }
-
-    public int[][] filterMagenta() {
-        return this.filter(0x00FF00FF);
-    }            
-
-    public int[][] filterYellow() {
-        return this.filter(0x00FFFF00);
-    }
-
-    public int[][] filterTeal() {
-        return this.filter(0x0000FFFF);
-    }
-            
-
+  
 } // end class
