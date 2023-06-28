@@ -356,6 +356,14 @@ public class ImageDisplay {
            3) Convert the color to a mask and call the filter method with
            mask parameter from the image manipulator class
         */
+        Color initialColor = Color.RED;
+        Color color = JColorChooser.showDialog(centerLabel, "Select a color", initialColor);
+        
+        int mask = color.getRGB();
+
+        imageManipulator.setImage(currentImage);
+            int[][] newPixels = imageManipulator.filter(mask);
+            updateDisplayedImage(newPixels);
     }
     
 }
