@@ -252,14 +252,35 @@ public class ImageDisplay {
     // flips the image horizontally
     private static void flipHorizontal() {
         //TODO: implement, similar to flipVertical
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] nexPixels = imageManipulator.flipHorizontal();
+            updateDisplayedImage(nexPixels);
+        }
     }
 
     private static void invert() {
         //TODO: implement, similar to flipVertical
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] nexPixels = imageManipulator.invert();
+            updateDisplayedImage(nexPixels);
+        }
     }
 
     private static void greyscale() {
         //TODO: implement, similar to flipVertical
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] nexPixels = imageManipulator.grayScale();
+            updateDisplayedImage(nexPixels);
+        }
     }
 
     private static void filterRed() {
@@ -274,22 +295,57 @@ public class ImageDisplay {
 
     private static void filterGreen() {
         //TODO: implement, similar to filterRed
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] newPixels = imageManipulator.filterGreen();
+            updateDisplayedImage(newPixels);
+        }
     }
 
     private static void filterBlue() {
         //TODO: implement, similar to filterRed
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] newPixels = imageManipulator.filterBlue();
+            updateDisplayedImage(newPixels);
+        }
     }
     
     private static void filterMagenta() {
         //TODO: implement, similar to filterRed
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] newPixels = imageManipulator.filterMagenta();
+            updateDisplayedImage(newPixels);
+        }
     }
 
     private static void filterYellow() {
         //TODO: implement, similar to filterRed
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] newPixels = imageManipulator.filterYellow();
+            updateDisplayedImage(newPixels);
+        }
     }
 
     private static void filterTeal() {
         //TODO: implement, similar to filterRed
+        if (currentImage == null)
+            errorMessage();
+        else {
+            imageManipulator.setImage(currentImage);
+            int[][] newPixels = imageManipulator.filterTeal();
+            updateDisplayedImage(newPixels);
+        }
     }
 
     private static void filterColor() {
