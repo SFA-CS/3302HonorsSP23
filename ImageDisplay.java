@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ImageDisplay {
     static JPanel imagePanel; // holds list of images on the right side in a scrollable panel
     static JLabel centerLabel; // holds current image in the center
-    static ImageList imageList; // a linked list of all iimages
+    static ImageList imageList; // a linked list of all images
     static JFrame frame; // the frame for the application
     static ImageManipulator imageManipulator = new ImageManipulator(); // used to alter image pixels
     static BufferedImage currentImage; // currrent image being displayed
@@ -187,9 +187,19 @@ public class ImageDisplay {
         // imagePanel
         // TODO: 3) if no images are in the list, just display a message dialgoue
         // notificying the user
-        errorMessage();
-        currentImageIndex = 0;
-        currentImage = imageList.get(0);
+        if(imageList.isEmpty()){
+            errorMessage();
+        }
+        else{
+            imageList.remove(currentImageIndex);
+            imagePanel.remove(currentImageIndex);
+            currentImageIndex = 0;
+            currentImage = imageList.get(0);
+
+            imagePanel.updateUI(); //updates icons
+            displayImage(0); //displays image first in imageList
+        }
+        
     }
 
     // ------------------removeAll-------------------
@@ -197,8 +207,15 @@ public class ImageDisplay {
     private static void removeAllImages() {
         // TODO: 1) Remove all images from the image list 2) image all icons from the
         // imagePanel
+
+        imageList.removeAll(); //removes all images from imageList
+        imagePanel.removeAll(); //removes all icons from imagePanel
+
         currentImage = null;
         currentImageIndex = -1;
+
+        imagePanel.updateUI(); //updates icons
+        centerLabel.setVisible(false); //gets rid of center image
     }
 
     private static void updateDisplayedImage(int[][] pixels) {
