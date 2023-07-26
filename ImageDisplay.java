@@ -170,12 +170,21 @@ public class ImageDisplay {
     // This method opens a dialogue box for the user to select an image
     // and adds it to the end at the panel on the left.
     private static void addImage() {
-        // TODO: 1) Open dialogue box for user to select image 2) image should be added
-        // to end of imageList
+        // TODO: 1) Open dialogue box for user to select image 
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        final File f = chooser.getSelectedFile();
+        String filename = f.getAbsolutePath();
+        
+        // 2) image should be added to end of imageList
         // TODO: Icon correspondonging to image should be added to the end of
         // imagePanel. See code about line 108 on how to add icon.
         // TODO: Add exception handling for selecting a non-valid file which display a
         // JOptionPane dialogue box. See errorMessage() for example
+        
+        
+        
+
     }
 
     // -----------------removeImage------------------

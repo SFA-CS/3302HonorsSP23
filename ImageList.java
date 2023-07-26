@@ -73,7 +73,7 @@ public class ImageList extends ListADT<BufferedImage> {
     /**
      * This method adds an image at the specified position in the list.
      * @param index - integer representing the desired position to add the image
-     * @param item - iamge to be added to the list
+     * @param item - image to be added to the list
      * @return - non
      * @throws - ListException when index is negative or behyond numImages - 1
      */
