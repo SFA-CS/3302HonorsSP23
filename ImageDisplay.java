@@ -174,33 +174,39 @@ public class ImageDisplay {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         final File file = chooser.getSelectedFile();
-        String filename = file.getAbsolutePath();
+        //String filename = file.getAbsolutePath();
+        
+        BufferedImage newImage = null;
         try{
-            BufferedImage newImage = ImageIO.read(file);
+            newImage = ImageIO.read(file);
             // 2) image should be added to end of imageList
             imageList.add(imageList.size(), newImage);
+        }
+        catch (IOException ex) {}
 
-            // TODO: Icon correspondonging to image should be added to the end of
-            // imagePanel. See code about line 108 on how to add icon.
-            ImageIcon newIcon = getImageIcon(newImage, 150, 150);
-            JButton button = new JButton(newIcon);
-            button.putClientProperty("location", imageList.size());
-            button.setContentAreaFilled(false);
-            button.setBorderPainted(false);
-            button.setPreferredSize(new Dimension(150, 150));
-            button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    displayImage((Integer) ((JButton) e.getSource()).getClientProperty("location"));
-                }
-            });
-            imagePanel.add(button);
-            imagePanel.updateUI(); //updates icons
+        // TODO: Icon correspondonging to image should be added to the end of
+        // imagePanel. See code about line 108 on how to add icon.
+        if(newImage != null){
+        ImageIcon newIcon = getImageIcon(newImage, 150, 150);
+        JButton button = new JButton(newIcon);
+        button.putClientProperty("location", imageList.size()-1);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setPreferredSize(new Dimension(150, 150));
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                displayImage((Integer) ((JButton) e.getSource()).getClientProperty("location"));
+            }
+        });
+        imagePanel.add(button);
+        imagePanel.updateUI(); //updates icons
         }
-        catch (IOException ex) {
+        else{
             // TODO: Add exception handling for selecting a non-valid file which display a
-            // JOptionPane dialogue box. See errorMessage() for example
-            errorMessage();
+            // JOptionPane dialogue box. See errorMessage() for exampleerrorMessage();
+            JOptionPane.showMessageDialog(frame, "File is not valid.", "File Note Valid", JOptionPane.ERROR_MESSAGE);
         }
+        
 
     }
 
