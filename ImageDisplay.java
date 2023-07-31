@@ -208,6 +208,7 @@ public class ImageDisplay {
             // JOptionPane dialogue box. See errorMessage() for exampleerrorMessage();
             JOptionPane.showMessageDialog(frame, "File is not valid.", "File Note Valid", JOptionPane.ERROR_MESSAGE);
         }
+        displayImage(imageList.size()-1); //sets display to new image
     }
 
     public static BufferedImage imageResize(BufferedImage img){
@@ -243,14 +244,18 @@ public class ImageDisplay {
         if(imageList.isEmpty()){
             errorMessage();
         }
+        else if(imageList.size() == 1){
+            removeAllImages();
+        }
         else{
             imageList.remove(currentImageIndex);
             imagePanel.remove(currentImageIndex);
-            currentImageIndex = 0;
-            currentImage = imageList.get(0);
+            imagePanel.revalidate();
+            imagePanel.repaint();
+            
+            displayImage(0); //displays image first in imageList
 
             imagePanel.updateUI(); //updates icons
-            displayImage(0); //displays image first in imageList
         }
         
     }
