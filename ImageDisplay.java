@@ -178,7 +178,9 @@ public class ImageDisplay {
         
         BufferedImage newImage = null;
         try{
-            newImage = ImageIO.read(file);
+            newImage = (ImageIO.read(file));
+            newImage = imageResize(newImage);
+
             // 2) image should be added to end of imageList
             imageList.add(imageList.size(), newImage);
         }
@@ -206,8 +208,27 @@ public class ImageDisplay {
             // JOptionPane dialogue box. See errorMessage() for exampleerrorMessage();
             JOptionPane.showMessageDialog(frame, "File is not valid.", "File Note Valid", JOptionPane.ERROR_MESSAGE);
         }
-        
+    }
 
+    public static BufferedImage imageResize(BufferedImage img){
+        int w;
+        int h;
+        if(img.getWidth() >= img.getHeight()){
+            w = 450;
+            h = img.getHeight()/(img.getWidth()/w);
+        }
+        else{
+            h = 450;
+            w = img.getWidth()/(img.getHeight()/h);
+        }
+        Image tmp = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        BufferedImage newImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2d = newImg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+
+        return newImg;
     }
 
     // -----------------removeImage------------------
