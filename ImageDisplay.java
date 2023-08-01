@@ -10,7 +10,9 @@ import java.io.IOException;
 public class ImageDisplay {
     static JPanel imagePanel; // holds list of images on the right side in a scrollable panel
     static JLabel centerLabel; // holds current image in the center
-    static ImageList imageList; // a linked list of all iimages
+    //TODO (Assignment 2): Toggle the comments on the next two lines
+    //static ImageList imageList = new ImageList(); // a linked list of all iimages
+    static GenericList<BufferedImage> imageList = new GenericList<BufferedImage>();
     static JFrame frame; // the frame for the application
     static ImageManipulator imageManipulator = new ImageManipulator(); // used to alter image pixels
     static BufferedImage currentImage; // currrent image being displayed
@@ -19,14 +21,14 @@ public class ImageDisplay {
 
     // buttons names on the left along with corresponding method calls
     static String[] leftButtonNames = new String[] { "rotate", "flip vertically", "flip horizontally", "invert colors",
-            "greyscale", "filter red", "filter green", "filter blue", "filter magenta", "filter yellow",
+            "grayscale", "filter red", "filter green", "filter blue", "filter magenta", "filter yellow",
             "filter teal", "filter by color" };
     static Runnable[] leftButtonMethods = new Runnable[] {
             () -> rotate(),
             () -> flipVertical(),
             () -> flipHorizontal(),
             () -> invert(),
-            () -> greyscale(),
+            () -> grayscale(),
             () -> filter(0x00FF0000), // red
             () -> filter(0x0000FF00), // green
             () -> filter(0x000000FF), // blue
@@ -43,7 +45,7 @@ public class ImageDisplay {
     // ==================MAIN=======================
     public static void main(String[] args) throws IOException {
         // add default image
-        imageList = new ImageList();
+        //imageList = new ImageList();
         imageList.add(0, ImageIO.read(new File("gru.png")));
         imageList.add(1, ImageIO.read(new File("buzz.png")));
         imageList.add(2, ImageIO.read(new File("billy.png")));
@@ -199,13 +201,17 @@ public class ImageDisplay {
     // This method removes the currently displayed image from the imageList
     // and the scrollable pane.
     private static void removeImage() {
-        if (imageList.size() > 0) {
+        if (!imageList.isEmpty()) {
             imageList.remove(currentImageIndex);
             
             // remove image from panel
             addImagesToPanel();
             // display the first image on left in the center
-            displayImage(0);
+            if (imageList.isEmpty())
+                removeAllImages();
+            else
+                displayImage(0);
+            
         } else {
             JOptionPane.showMessageDialog(frame, "No images currently in use.", "Cannot remove image",
                 JOptionPane.ERROR_MESSAGE);
@@ -303,9 +309,9 @@ public class ImageDisplay {
     }
 
     /**
-     * Take the current image and convert to grey scale.
+     * Take the current image and convert to gray scale.
      */
-    private static void greyscale() {
+    private static void grayscale() {
         if (currentImage == null)
             errorMessage();
         else {

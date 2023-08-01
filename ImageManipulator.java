@@ -16,6 +16,14 @@ public class ImageManipulator {
         // nothing to do but what the super constructor does
     }
 
+    public ImageManipulator(int[][] pixels) {
+        this.pixels = pixels;
+    }
+
+    public ImageManipulator(BufferedImage image) {
+        this.setImage(image);
+    }
+
     /**
      * This method sets the pixels given the image
      * file.
@@ -40,6 +48,8 @@ public class ImageManipulator {
      * Post: the image is rotated 90 degree clockwise
      */
     public int[][] rotate() {
+        // TODO (Assignment 01) Rotate the image 90 degrees clockwise.
+
         // first row becomes last column
         // second row becomes second to last column
         int w = pixels.length;
@@ -51,7 +61,6 @@ public class ImageManipulator {
                 int color = this.pixels[x][y];
                 newPixels[h - y - 1][x] = color;
             }
-            
         
         return newPixels;
     }
@@ -63,6 +72,7 @@ public class ImageManipulator {
      * Post: a gray scale version of the current image is displayed
      */
     public int[][] grayScale() {
+        // TODO (in class): average the R G B values
         int w = pixels.length;
         int h = pixels[0].length;
 
@@ -93,6 +103,7 @@ public class ImageManipulator {
      * Post: an image with the inverted colors of the current image is displayed
      */
     public int[][] invert() {
+        // TODO (Assignment 01): invert the image colors 
         int w = pixels.length;
         int h = pixels[0].length;
 
@@ -102,7 +113,7 @@ public class ImageManipulator {
                 int color = this.pixels[x][y];
                 // subtracting the RGB value from 255 (= 0b11111111)
                 // is the same as flipping the bits!
-                newPixels[x][y] = ~color;
+                newPixels[x][y] = ~color & 0x00FFFFFF;
             }
 
         return newPixels;
@@ -118,6 +129,7 @@ public class ImageManipulator {
      * displayed
      */
     public int[][] flipHorizontal() {
+        // TODO (Assignment 01): Flips the image pixels horizontally
         int w = pixels.length;
         int h = pixels[0].length;
 
@@ -140,6 +152,7 @@ public class ImageManipulator {
      * Post: a version of the current image that is flipped vertically is displayed
      */
     public int[][] flipVertical() {
+        // TODO (Assignment 01): flips the image pixels vertically
         int w = pixels.length;
         int h = pixels[0].length;
 
@@ -162,6 +175,7 @@ public class ImageManipulator {
      * Post: a version of the current image that is filtered is displayed
      */
     public int[][] filter(int mask) {
+        // TODO (in class): use & to filter by mask
         int w = pixels.length;
         int h = pixels[0].length;
 

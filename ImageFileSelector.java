@@ -65,24 +65,22 @@ class ImageFilter extends FileFilter {
      */
     @Override
     public boolean accept(File f) {
+        // directories are a-okay
         if (f.isDirectory()) {
             return true;
         }
 
+        // see if the file extension is acceptable
         String extension = getExtension(f);
         if (extension != null) {
-            if (extension.equals(TIFF) ||
+            return (extension.equals(TIFF) ||
                     extension.equals(TIF) ||
                     extension.equals(GIF) ||
                     extension.equals(JPEG) ||
                     extension.equals(JPG) ||
-                    extension.equals(PNG)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
+                    extension.equals(PNG));
+        } else
+            return false;
     }
 
     @Override
