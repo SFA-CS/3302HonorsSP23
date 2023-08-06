@@ -255,9 +255,9 @@ public class ImageDisplay {
             
             displayImage(0); //displays image first in imageList
 
-            imagePanel.removeAll();
+            imagePanel.removeAll(); //removes everything from Image Panel
 
-            for (int i = 0; i < imageList.size(); i++) {
+            for (int i = 0; i < imageList.size(); i++) { //puts everything back into Image Panel with correct functions
                 BufferedImage currentImage = imageList.get(i);
                 ImageIcon icon = getImageIcon(currentImage, 150, 150);
                 JButton button = new JButton(icon);
