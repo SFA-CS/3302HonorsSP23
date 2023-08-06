@@ -241,10 +241,10 @@ public class ImageDisplay {
         // imagePanel
         // TODO: 3) if no images are in the list, just display a message dialgoue
         // notificying the user
-        if(imageList.isEmpty()){
+        if(imageList.isEmpty()){ //if empty, display error
             errorMessage();
         }
-        else if(imageList.size() == 1){
+        else if(imageList.size() == 1){ //if there is only one image, remove all images
             removeAllImages();
         }
         else{
@@ -254,6 +254,24 @@ public class ImageDisplay {
             imagePanel.repaint();
             
             displayImage(0); //displays image first in imageList
+
+            imagePanel.removeAll();
+
+            for (int i = 0; i < imageList.size(); i++) {
+                BufferedImage currentImage = imageList.get(i);
+                ImageIcon icon = getImageIcon(currentImage, 150, 150);
+                JButton button = new JButton(icon);
+                button.putClientProperty("location", i);
+                button.setContentAreaFilled(false);
+                button.setBorderPainted(false);
+                button.setPreferredSize(new Dimension(150, 150));
+                button.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        displayImage((Integer) ((JButton) e.getSource()).getClientProperty("location"));
+                    }
+                });
+                imagePanel.add(button);
+            }
 
             imagePanel.updateUI(); //updates icons
         }
